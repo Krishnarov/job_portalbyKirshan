@@ -18,7 +18,7 @@ function Companies(props) {
     <div className="md:px-28 px-4 py-4 overflow-hidden">
       <p className="text-sm">Companies we helped grow</p>
       <div className=" py-4 gap-6 slider-container">
-        {/* <Slider {...settings}>
+        <Slider {...settings}>
           {props?.comp?.map((data, index) => (
             <div key={index} className=" text-xs text-center cursor-pointer">
               <div className="flex justify-center">
@@ -31,7 +31,7 @@ function Companies(props) {
               {data?.name}
             </div>
           ))}
-        </Slider> */}
+        </Slider>
       </div>
     </div>
   );

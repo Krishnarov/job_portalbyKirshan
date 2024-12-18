@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import ConstantApi from "../components/ConstentApi.jsx";
 // axios.defaults.withCredentials = true;
 function Login() {
   const [email, setemail] = useState("");
@@ -13,43 +14,40 @@ function Login() {
     // console.log(data);
 
     try {
-      
-      const res=await axios.post("http://localhost:4000/user/login",userinfo, { withCredentials: true })
+      const res = await axios.post(`${ConstantApi()}/user/login`, userinfo, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        }});
       // console.log(res);
-      if(res.status===201){
+      if (res.status === 201) {
         // console.log(res.data);
         document.getElementById("my_modal_3").close();
 
-        if(res.data.user.usertype==="client"){
+        if (res.data.user.usertype === "client") {
           Swal.fire({
             title: "Login successfull",
             text: `Wellcome mr.${res.data.user.name}`,
             icon: "success",
           });
-          sessionStorage.setItem("user",JSON.stringify(res.data.user))
+          sessionStorage.setItem("user", JSON.stringify(res.data.user));
           navigate("/users/dashbord");
-          
-        }else if(res.data.user.usertype==="Recruiter"){
+        } else if (res.data.user.usertype === "Recruiter") {
           Swal.fire({
             title: "Login successfull",
             text: `Wellcome mr.${res.data.user.name}`,
             icon: "success",
           });
-          sessionStorage.setItem("user",JSON.stringify(res.data.user))
+          sessionStorage.setItem("user", JSON.stringify(res.data.user));
           return navigate("/recruiter");
-        }else{
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "creindatiol error",
-          
-        });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "creindatiol error",
+          });
         }
-
-
-
       }
-      
     } catch (error) {
       console.log(error);
       document.getElementById("my_modal_3").close();
@@ -57,11 +55,59 @@ function Login() {
         icon: "error",
         title: "Oops...",
         text: error,
-      })
-
+      });
     }
-    
   };
+  // ?_____________________________
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Sending login request to the backend
+      const response = await fetch(`${ConstantApi()}/user/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Important for cookies
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Display success message
+        console.log("User Data:", data);
+
+        document.getElementById("my_modal_3").close();
+
+        if (data.user.usertype === "client") {
+          Swal.fire({
+            title: "Login successfull",
+            text: `Wellcome mr.${data.user.name}`,
+            icon: "success",
+          });
+          sessionStorage.setItem("user", JSON.stringify(data.user));
+          navigate("/users/dashbord");
+        } else if (data.user.usertype === "Recruiter") {
+          Swal.fire({
+            title: "Login successfull",
+            text: `Wellcome mr.${data.user.name}`,
+            icon: "success",
+          });
+          sessionStorage.setItem("user", JSON.stringify(data.user));
+
+          return navigate("/recruiter");
+        }
+        // Cookies are automatically stored in the browser if sent with `credentials: "include"`
+      } else {
+        console.log("Login failed");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  // ++++++++++++++++++++++
 
   return (
     <div>
@@ -118,7 +164,7 @@ function Login() {
                 onChange={(p) => setPassword(p.target.value)}
               />
             </label>
-             {/* <div>
+            {/* <div>
                 <div>Recruiter <input type="radio" name="usertype" value="Recruiter" onChange={(e) => setusertype(e.target.value)} /> Client <input type="radio" name="usertype" id="client" value="client" onChange={(e) => setusertype(e.target.value)} /> </div>
               </div> */}
             <div className="flex justify-around  mt-8">
