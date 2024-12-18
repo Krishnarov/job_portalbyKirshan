@@ -18,7 +18,8 @@ function Login() {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
-        }});
+        },
+      });
       // console.log(res);
       if (res.status === 201) {
         // console.log(res.data);
