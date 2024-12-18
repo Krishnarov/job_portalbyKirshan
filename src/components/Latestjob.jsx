@@ -1,6 +1,7 @@
 import React from "react";
+import ConstentApi from "./ConstentApi";
 function Latestjob(props) {
-  console.log(props);
+  // console.log(props);
   
   return (
     <div className="bg-slate-100">
@@ -15,13 +16,13 @@ function Latestjob(props) {
         </div>
 
         <div className=" grid md:grid-cols-2 grid-cols-1 gap-6 mt-12">
-          {props.jobs.slice(0, 6).map((item, index) => (
+          {props?.jobs?.slice(0, 6)?.map((item, index) => (
             <div key={index} className="bg-white p-4 px-12 md:flex gap-8">
               <div className="flex items-center md:mb-0 mb-2">
                 {/* <img className="h-14 " src={item.logo} alt="" /> */}
                 <img
                 className="h-14 "
-                  src={`http://localhost:4000/public/${
+                  src={`${ConstentApi()}/public/${
                     item?.company === null ? null : item.company?.logo
                   }`}
                 />

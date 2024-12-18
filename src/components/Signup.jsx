@@ -3,6 +3,8 @@ import Login from "./Login";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import constantapi from "../components/ConstentApi.jsx"
+
 function Signup() {
   const [name, setname] = useState("");
   const [mobile, setmobile] = useState("");
@@ -21,7 +23,7 @@ function Signup() {
 
     try {
       const res = await axios.post(
-        "http://localhost:4000/user/signup",
+        `${constantapi()}/user/signup`,
         userinfo
       );
       if (res.status === 200) {

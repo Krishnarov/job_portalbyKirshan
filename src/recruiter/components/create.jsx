@@ -3,6 +3,7 @@ import React, {useState } from "react";
 
 import { toast, ToastContainer } from "react-toastify";
 import UpdateCompany from "./UpdateCompany";
+import ConstentApi from "../../components/ConstentApi.jsx";
 
 
 function Create({clickActive}) {
@@ -18,7 +19,7 @@ function Create({clickActive}) {
         return console.log("all filde are requiard");
       }
       const res = await axios.post(
-        "http://localhost:4000/companise/regcompanise",
+        `${ConstentApi()}/companise/regcompanise`,
         { name },{ withCredentials: true }
       );
 

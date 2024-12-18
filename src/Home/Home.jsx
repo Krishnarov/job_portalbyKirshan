@@ -8,17 +8,19 @@ import FeaturedJobs from '../components/FeaturedJobs ';
 import Latestjob from '../components/Latestjob';
 import Footer from '../components/Footer';
 import axios from 'axios';
+import constantapi from "../components/ConstentApi.jsx"
 
 function Home() {
 
   const [jobsdatas,setjobdatas]=useState([])
   const [companies, setCompnise]=useState([])
+  console.log(`${constantapi()}/jobs/getalljob`);
+  
   useEffect(()=>{
     const getjobs=async () => {
       try {
-        const res=await axios.get("http://localhost:4000/jobs/getalljob",{}, { withCredentials: true })
-        // const res=await axios.get('./jobs.json')
-        console.log(res.data);
+        const res=await axios.get(`${constantapi()}/jobs/getalljob`,{}, { withCredentials: true })
+        // console.log(res.data);
         
         setjobdatas(res.data?.jobs)
 
@@ -31,7 +33,7 @@ function Home() {
 
     const getcompanise=async ()=>{
       try {
-        const res=await axios.get("http://localhost:4000/companise",{}, { withCredentials: true });
+        const res=await axios.get(`${constantapi()}/companise`,{}, { withCredentials: true });
         setCompnise(res?.data)
         // console.log('res.data', res.data)
         
@@ -54,6 +56,7 @@ function Home() {
       <Category />
       <Poster/>
       <FeaturedJobs jobs={jobsdatas}/>
+        
       <Latestjob jobs={jobsdatas}/>
       <Footer />
     </div>

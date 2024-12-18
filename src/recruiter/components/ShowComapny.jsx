@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import UpdateCompany from "./UpdateCompany";
 import { toast, ToastContainer } from "react-toastify";
+import ConstentApi from "../../components/ConstentApi.jsx";
 
 function ShowComapny({ clickActive, compId }) {
   const [companise, setcompanises] = useState([]);
@@ -12,7 +13,7 @@ function ShowComapny({ clickActive, compId }) {
   const fetchCompanies = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/companise/getCompany",
+        `${ConstentApi()}/companise/getCompany`,
         {},
         {
           withCredentials: true,
@@ -34,7 +35,7 @@ function ShowComapny({ clickActive, compId }) {
 
   const handeldelete=async(e)=>{
 // console.log(e);
-const res=await axios.delete(`http://localhost:4000/companise/deletecompany/${e}`,   {
+const res=await axios.delete(`${ConstentApi()}/companise/deletecompany/${e}`,   {
   withCredentials: true,
 })
 // console.log(res);

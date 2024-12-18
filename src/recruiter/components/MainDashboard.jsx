@@ -5,6 +5,7 @@ import WelcomeRe from "./WelcomeRe"
 import Create from "./create";
 import UpdateCompany from "./UpdateCompany"
 import { useNavigate } from "react-router-dom";
+import ConstentApi from "../../components/ConstentApi.jsx";
 const MainDashboard = () => {
   // const [status, setStatus] = useState("");
   const [active, setactive] = useState("loading");
@@ -27,7 +28,7 @@ const navigator=useNavigate()
   const fetchCompanies = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/companise/getCompany",
+        `${ConstentApi()}/companise/getCompany`,
         {},
         {
           withCredentials: true,

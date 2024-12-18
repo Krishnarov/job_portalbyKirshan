@@ -18,20 +18,20 @@ function Companies(props) {
     <div className="md:px-28 px-4 py-4 overflow-hidden">
       <p className="text-sm">Companies we helped grow</p>
       <div className=" py-4 gap-6 slider-container">
-        <Slider {...settings}>
-          {props.comp.map((data, index) => (
+        {/* <Slider {...settings}>
+          {props?.comp?.map((data, index) => (
             <div key={index} className=" text-xs text-center cursor-pointer">
               <div className="flex justify-center">
                 <img
                   className="aspect-square object-cover object-center"
-                  src={data.logo}
-                  alt={data.name}
+                  src={data?.logo}
+                  alt={data?.name}
                 />
               </div>
-              {data.name}
+              {data?.name}
             </div>
           ))}
-        </Slider>
+        </Slider> */}
       </div>
     </div>
   );

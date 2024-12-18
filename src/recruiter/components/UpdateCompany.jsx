@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import PropTypes from "prop-types";
-
+import ConstentApi from "../../components/ConstentApi.jsx";
 function UpdateCompany(props) {
   const [name, setname] = useState("");
   const [website, setwebsite] = useState("");
@@ -16,7 +16,7 @@ function UpdateCompany(props) {
     const getcurentcompany = async () => {
       try {
         const res = await axios.post(
-          `http://localhost:4000/companise/getonecompanise/${compId}`,
+          `${ConstentApi()}/companise/getonecompanise/${compId}`,
           {},
           { withCredentials: true }
         );
@@ -49,7 +49,7 @@ function UpdateCompany(props) {
    
 
       const res = await axios.put(
-        `http://localhost:4000/companise/updatecompani/${compId}`,
+        `${ConstentApi()}/companise/updatecompani/${compId}`,
         updatedata,
         {
           headers: { "Content-Type": "multipart/form-data" },

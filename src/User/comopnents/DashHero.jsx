@@ -3,6 +3,7 @@ import ApplideJobs from "./applideJobs";
 import Scheduling from "./Scheduling";
 import Joblisting from "./Joblisting";
 import axios from "axios";
+import constantapi from "../../components/ConstentApi.jsx"
 import Profile from "../../components/Profile";
 function Arrowdown() {
   return (
@@ -39,7 +40,7 @@ function DashHero({ activeSection, onSidebarClick, jobs }) {
 
   const getdata = async () => {
     const res = await axios.post(
-      "http://localhost:4000/applicant/allaplidjob",
+      `${constantapi()}/applicant/allaplidjob`,
       {},
       { withCredentials: true }
     );

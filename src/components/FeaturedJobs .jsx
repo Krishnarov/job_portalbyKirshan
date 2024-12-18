@@ -1,5 +1,5 @@
 import Slider from "react-slick";
-
+import ConstentApi from "./ConstentApi.jsx";
 function FeaturedJobs(props) {
   console.log(props);
 
@@ -33,7 +33,7 @@ function FeaturedJobs(props) {
                 {/* <img className="h-12 mb-5" src={item.logo} alt="" /> */}
                 <img
                   className="h-12 mb-5"
-                  src={`http://localhost:4000/public/${
+                  src={`${ConstentApi()}/public/${
                     item?.company === null ? null : item.company?.logo
                   }`}
                 />

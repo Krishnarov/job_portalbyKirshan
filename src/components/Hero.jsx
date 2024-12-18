@@ -50,7 +50,7 @@ function Hero(props) {
               onChange={(l) => setlocationdata(l.target.value)}
             >
              
-              {props.loc.map((a, index) => (
+              {props?.loc?.map((a, index) => (
                 <option value={a.address} key={index} >
                   {a.address}
                 </option>
