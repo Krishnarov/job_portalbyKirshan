@@ -1,0 +1,74 @@
+[
+    {
+      "logo": "https://img.icons8.com/sf-regular/96/r.png",
+      "time": "Full time",
+      "title": "Email Marketing",
+      "company": "Revolut",
+      "address": "Madrid, Spain",
+      "dec": "Revolut is looking for Email Marketing to help team ma ...",
+      "category": [" Marketing ", " Design "]
+    },
+    {
+      "logo": "https://img.icons8.com/sf-black/64/dropbox.png",
+      "time": "Full time",
+      "title": "Brand Designer",
+      "company": "Dropbox",
+      "address": "San Fransisco, US",
+      "dec": "Dropbox is looking for Brand Designer to help the team t ...",
+      "category": ["Design", "Business"]
+    },
+    {
+      "logo": "https://img.icons8.com/sf-regular/96/tuning-fork.png",
+      "time": "Full time",
+      "title": "Email Marketing",
+      "company": "Pitch",
+      "address": " Berlin, Germany",
+      "dec": "Pitch is looking for Customer Manager to join marketing t ...",
+      "category": ["Marketing"]
+    },
+    {
+      "logo": "https://img.icons8.com/fluency/48/blinkist.png",
+      "time": "Full time",
+      "title": " Visual Designer",
+      "company": "Blinklist",
+      "address": " Granada, Spain",
+      "dec": "Blinkist is looking for Visual Designer to help team desi ...",
+      "category": ["Design"]
+    },
+    {
+      "logo": "./images/ClassPass.png",
+      "time": "Full time",
+      "title": "Product Designer",
+      "company": "ClassPass",
+      "address": "Manchester, UK",
+      "dec": "ClassPass is looking for Product Designer to help us...",
+      "category": ["Marketing", "Design"]
+    },
+    {
+      "logo": "https://img.icons8.com/color/48/canva.png",
+      "time": "Full time",
+      "title": " Lead Designer",
+      "company": "Canva",
+      "address": " Ontario, Canada",
+      "dec": "Canva is looking for Lead Engineer to help develop n ...",
+      "category": ["Business", "Design"]
+    },
+    {
+      "logo": "https://img.icons8.com/ios-glyphs/30/mac-os.png",
+      "time": "Full time",
+      "title": "Email Marketing",
+      "company": "Apple",
+      "address": "Lucknow ,India",
+      "dec": "Revolut is looking for Email Marketing to help team ma ...",
+      "category": ["Marketing", "Design"]
+    },
+    {
+      "logo": "https://img.icons8.com/fluency/48/twitter-circled.png",
+      "time": "Full time",
+      "title": "Data Analyst",
+      "company": "Twitter",
+      "address": " San Diego, US",
+      "dec": "Twitter is looking for Data Analyst to help team desi ...",
+      "category": ["Technology"]
+    }
+  ]
