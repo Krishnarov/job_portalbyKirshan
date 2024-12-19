@@ -32,6 +32,9 @@ const navigator=useNavigate()
         {},
         {
           withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+        },
         }
       );
 
