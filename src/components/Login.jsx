@@ -20,8 +20,8 @@ function Login() {
           "Content-Type": "application/json",
         },
       });
-      // console.log(res);
-      if (res.status === 201) {
+      console.log(res);
+      if (res) {
         // console.log(res.data);
         document.getElementById("my_modal_3").close();
 

@@ -28,7 +28,7 @@ const navigator=useNavigate()
   const fetchCompanies = async () => {
     try {
       const response = await axios.post(
-        `${ConstentApi()}/companise/getCompany`,
+        "https://jobportalbackend-fu17.onrender.com/companise/getCompany",
         {},
         {
           withCredentials: true,
