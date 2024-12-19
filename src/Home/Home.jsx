@@ -13,7 +13,7 @@ import constantapi from "../components/ConstentApi.jsx"
 function Home() {
 
   const [jobsdatas,setjobdatas]=useState([])
-  const [companies, setCompnise]=useState([])
+  // const [companies, setCompnise]=useState([])
   console.log(`${constantapi()}/jobs/getalljob`);
   
   useEffect(()=>{
@@ -31,17 +31,17 @@ function Home() {
     }
     getjobs()
 
-    const getcompanise=async ()=>{
-      try {
-        const res=await axios.get(`${constantapi()}/companise`,{}, { withCredentials: true });
-        setCompnise(res?.data)
-        // console.log('res.data', res.data)
+    // const getcompanise=async ()=>{
+    //   try {
+    //     const res=await axios.get(`${constantapi()}/companise/getCompany`,{}, { withCredentials: true });
+    //     // setCompnise(res?.data)
+    //     // console.log('res.data', res.data)
         
-      } catch (error) {
-        console.log('companise data fatchig error', error)
-      }
-    }
-    getcompanise()
+    //   } catch (error) {
+    //     console.log('companise data fatchig error', error)
+    //   }
+    // }
+    // getcompanise()
 
 
 
@@ -52,7 +52,7 @@ function Home() {
     <div>
       <NavBar />
       <Hero loc={jobsdatas}/>
-      <Companies  comp={companies}/>
+      {/* <Companies  comp={companies}/> */}
       <Category />
       <Poster/>
       <FeaturedJobs jobs={jobsdatas}/>
