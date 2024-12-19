@@ -9,7 +9,7 @@ function Dashboard() {
   const [curentjobid,setcurentjobid]=useState(null)
   useEffect(() => {
     const getjobdata = async () => {
-      const res = await axios.get("http://localhost:4000/jobs/");
+      const res = await axios.post("https://jobportalbackend-fu17.onrender.com/jobs/getadminjob",{},{withCredentials:true});
       if (res.status === 200) {
         // console.log(res.data);
          setjob(res.data);
@@ -38,7 +38,7 @@ function Dashboard() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const res = await axios.delete(
-          `http://localhost:4000/jobs/deletejob/${jobid}`
+          `http://localhost:4000/jobs/deletejob/${jobid}`,{},{withCredentials:true}
         );
 
         if (res.status === 200) {
