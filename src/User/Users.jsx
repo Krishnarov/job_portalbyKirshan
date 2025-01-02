@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Dashbord from "./comopnents/Dashbord";
 import axios from "axios";
-import constantapi from "../components/ConstentApi.jsx"
+import constantapi from "../components/ConstentApi.jsx";
 function User() {
   const [jobsdata, setjobdatas] = useState({});
-  
+  const token = sessionStorage.getItem("token");
   useEffect(() => {
     const getjobs = async () => {
       try {
-        const res = await axios.get(`${constantapi()}/jobs/getalljob`,{},{withCredentials: true});
-        console.log(res.data);
-        
+        const res = await axios.get(`${constantapi()}/jobs/getalljob`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         setjobdatas(res?.data);
       } catch (error) {
         console.log(error);
@@ -18,11 +22,10 @@ function User() {
     };
     getjobs();
   }, []);
-  console.log(jobsdata);
+
   return (
     <div>
-      <Dashbord  jobs={jobsdata}/>
-
+      <Dashbord jobs={jobsdata} />
     </div>
   );
 }

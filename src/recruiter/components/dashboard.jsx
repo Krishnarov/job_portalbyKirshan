@@ -3,21 +3,29 @@ import Postjob from "./Postjob";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Editjob from "./Editjob";
-
+import ConstentApi from "../../components/ConstentApi";
 function Dashboard() {
   const [job, setjob] = useState([]);
-  const [curentjobid,setcurentjobid]=useState(null)
+  const [curentjobid, setcurentjobid] = useState(null);
+  const token = sessionStorage.getItem("token");
   useEffect(() => {
     const getjobdata = async () => {
-      const res = await axios.post("https://jobportalbackend-fu17.onrender.com/jobs/getadminjob",{},{withCredentials:true});
+      const res = await axios.post(
+        `${ConstentApi()}/jobs/getadminjob`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (res.status === 200) {
         // console.log(res.data);
-         setjob(res.data);
+        setjob(res.data);
       }
     };
     getjobdata();
-
-    
   }, []);
 
   const heandaldelete = async (jobid) => {
@@ -38,7 +46,14 @@ function Dashboard() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const res = await axios.delete(
-          `http://localhost:4000/jobs/deletejob/${jobid}`,{},{withCredentials:true}
+          `${ConstentApi()}/jobs/deletejob/${jobid}`,
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },  
+          }
         );
 
         if (res.status === 200) {
@@ -56,12 +71,8 @@ function Dashboard() {
     });
   };
 
-
-
-
   return (
     <div className="px-4">
-     
       <Postjob />
 
       <div className="mt-4">
@@ -84,12 +95,16 @@ function Dashboard() {
               <td className="border py-2 px-2">{e.skills}</td>
               <td className="border py-2 px-2">{e.salary}</td>
               <td className="flex  items-center justify-around">
-                <div className="px-3 py-2 border rounded-lg font-bold"
-                onClick={() => {setcurentjobid(e._id); document.getElementById("my_modal_6").showModal();}}
+                <div
+                  className="px-3 py-2 border rounded-lg font-bold"
+                  onClick={() => {
+                    setcurentjobid(e._id);
+                    document.getElementById("my_modal_6").showModal();
+                  }}
                 >
                   Edit
                 </div>
-                <Editjob jobid={curentjobid}/>
+                <Editjob jobid={curentjobid} />
                 <div
                   className="px-3 py-2 border rounded-lg text-red-400 font-bold"
                   onClick={() => heandaldelete(e._id)}

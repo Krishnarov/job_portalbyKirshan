@@ -1,24 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
+import ConstentApi from "../../components/ConstentApi";
 
 function ApplideJobs({allaplidjobs}) {
-
-  
-  // const [allaplidjob, setallappliedsjob] = useState([]);
-  // const getdata = async () => {
-  //   const res = await axios.post(
-  //     "http://localhost:4000/applicant/allaplidjob",
-  //     {},
-  //     { withCredentials: true }
-  //   );
-  //   setallappliedsjob(res.data.application);
-  //   setapplyjob(res.data.application.length);
-  // };
-  // useEffect(() => {
-  //   getdata()
-  // },[]);
-  console.log(allaplidjobs);
   
   return (
     <div className="w-full h-full p-8 border">
@@ -30,7 +15,7 @@ function ApplideJobs({allaplidjobs}) {
             <div className="flex items-center">
               <img
               className="h-20"
-                src={`http://localhost:4000/public/${
+                src={`${ConstentApi()}/public/${
                   e.job?.company === null ? null : e.job.company?.logo
                 }`}
               />{" "}

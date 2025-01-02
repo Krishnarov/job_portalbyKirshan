@@ -9,18 +9,21 @@ function ShowComapny({ clickActive, compId }) {
   const [curentId, setcurentid] = useState("");
 
   const [search, setsearch] = useState("");
-
+  const token = sessionStorage.getItem("token");
   const fetchCompanies = async () => {
     try {
-      const response = await axios.post(
+      const response = await axios.get(
         `${ConstentApi()}/companise/getCompany`,
-        {},
+
         {
-          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       setcompanises(response.data.companay);
-
+      console.log(response);
       
     } catch (error) {
       console.error("Error fetching companies:", error);
@@ -28,36 +31,38 @@ function ShowComapny({ clickActive, compId }) {
   };
   const handeledit = (e) => {
     console.log(e);
-    // setcurentid(e)
+    setcurentid(e)
     clickActive("updateCompany");
     compId(e);
   };
 
-  const handeldelete=async(e)=>{
-// console.log(e);
-const res=await axios.delete(`${ConstentApi()}/companise/deletecompany/${e}`,   {
-  withCredentials: true,
-})
-// console.log(res);
+  const handeldelete = async (e) => {
+    // console.log(e);
+    const res = await axios.delete(
+      `${ConstentApi()}/companise/deletecompany/${e}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // console.log(res);
 
-if(res.status===200){
-  fetchCompanies();
-  toast.success("Successfully company deleted!", {
-    position: "bottom-right",
-  });
-}
-
-
-
-
-  }
+    if (res.status === 200) {
+      fetchCompanies();
+      toast.success("Successfully company deleted!", {
+        position: "bottom-right",
+      });
+    }
+  };
   useEffect(() => {
     fetchCompanies();
   }, []);
 
   return (
     <div className="">
-         <ToastContainer />
+      <ToastContainer />
       <div className=" px-20 ">
         <div className="flex justify-between items-center py-5">
           <div>
@@ -76,56 +81,63 @@ if(res.status===200){
             New Company
           </div>
         </div>
-        {/* {clickActive === "updateCompany" && <UpdateCompany  compId={curentId}/>} */}
+        {clickActive === "updateCompany" && <UpdateCompany  compId={curentId}/>}
 
         <div>
           <table border="2px" width="100%">
             <thead>
-            <tr className=" bg-gray-100">
-              <th className="py-2"> Logo</th>
-              <th className="py-2">Name</th>
-              <th className="py-2">Date</th>
-              <th className="py-2">Action</th>
-            </tr>
+              <tr className=" bg-gray-100">
+                <th className="py-2"> Logo</th>
+                <th className="py-2">Name</th>
+                <th className="py-2">Date</th>
+                <th className="py-2">Action</th>
+              </tr>
             </thead>
             <tbody>
-            {companise.map((c, index) => (
-              <tr key={index} className="border-b">
-                <td className="py-2">
-                  {!c.logo ? (
-                    <img
-                      src="./images/digi.jpeg"
-                      className="w-16 h-16 rounded-full"
-                      alt=""
-                    />
-                  ) : (
-                    <img src={`http://localhost:4000/public/${c.logo}`} className="w-16 h-16 rounded-full" alt="" />
-                  )}
-                </td>
-                <td className="py-2 text-center">{c.name}</td>
-                <td className="py-2 text-center">{c.createdAt}</td>
-                <td className="py-2">
-                  <div className="dropdown">
-                    <i className="ri-more-fill text-3xl " tabIndex={0}></i>
-                    <ul
-                      tabIndex={0}
-                      className=" dropdown-content dropdown-right w-32 bg-base-100 z-[1]  p-2 shadow"
-                    >
-                      <li
-                        className="hover:bg-base-300 py-1 "
-                        onClick={() => handeledit(c._id)}
+              {companise.map((c, index) => (
+                <tr key={index} className="border-b">
+                  <td className="py-2">
+                    {!c.logo ? (
+                      <img
+                        src="./images/digi.jpeg"
+                        className="w-16 h-16 rounded-full"
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        src={`http://localhost:4000/public/${c.logo}`}
+                        className="w-16 h-16 rounded-full"
+                        alt=""
+                      />
+                    )}
+                  </td>
+                  <td className="py-2 text-center">{c.name}</td>
+                  <td className="py-2 text-center">{c.createdAt}</td>
+                  <td className="py-2">
+                    <div className="dropdown">
+                      <i className="ri-more-fill text-3xl " tabIndex={0}></i>
+                      <ul
+                        tabIndex={0}
+                        className=" dropdown-content dropdown-right w-32 bg-base-100 z-[1]  p-2 shadow"
                       >
-                        <i className="ri-edit-2-fill px-2  "></i>Edit{" "}
-                      </li>
-                      {/* <li className="hover:bg-base-300 py-1 rounded-lg"><i className="ri-edit-2-fill px-2  "></i>Edit </li> */}
-                      <li className="hover:bg-base-300 py-1  text-red-400" onClick={()=>handeldelete(c._id)}>
-                        <i className="ri-delete-bin-6-line px-2"></i>Delete{" "}
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                        <li
+                          className="hover:bg-base-300 py-1 "
+                          onClick={() => handeledit(c._id)}
+                        >
+                          <i className="ri-edit-2-fill px-2  "></i>Edit{" "}
+                        </li>
+                        {/* <li className="hover:bg-base-300 py-1 rounded-lg"><i className="ri-edit-2-fill px-2  "></i>Edit </li> */}
+                        <li
+                          className="hover:bg-base-300 py-1  text-red-400"
+                          onClick={() => handeldelete(c._id)}
+                        >
+                          <i className="ri-delete-bin-6-line px-2"></i>Delete{" "}
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
 

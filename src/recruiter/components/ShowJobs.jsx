@@ -4,17 +4,23 @@ import axios from "axios";
 import Postjob from "./Postjob";
 import { toast, ToastContainer } from "react-toastify";
 import Applicants from "./Applicants";
-
+import ConstentApi from "../../components/ConstentApi";
 function ShowJobs() {
   const [job, setjob] = useState([]);
   const [onejob, setonejob] = useState([]);
   const [active, setactive] = useState("");
+  const token = sessionStorage.getItem("token");
   const getjobdata = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:4000/jobs/getadminjob",
+        `${ConstentApi()}/jobs/getadminjob`,
         {},
-        { withCredentials: true }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (res.status === 200) {
         setjob(res.data.jobs);
@@ -35,7 +41,12 @@ function ShowJobs() {
     try {
       const res = await axios.delete(
         `http://localhost:4000/jobs/deletejob/${e}`,
-        { withCredentials: true }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (res.status === 200) {
         getjobdata();
@@ -51,20 +62,18 @@ function ShowJobs() {
     getjobdata();
   }, []);
 
-  const handelApplicants= async (e) => {
-    setonejob(e)
-    setactive("Applicants")
-  }
-
-
+  const handelApplicants = async (e) => {
+    setonejob(e);
+    setactive("Applicants");
+  };
 
   return (
     <div className="px-12">
       <ToastContainer />
-      {active==="postjob" && (
+      {active === "postjob" && (
         <Postjob back={habdelback} refres={getjobdata} />
-      ) }
-      {active==="" && (
+      )}
+      {active === "" && (
         <>
           <div className="flex justify-between items-center mt-5">
             <div className="text-xl font-bold">All Posted Job</div>
@@ -86,7 +95,7 @@ function ShowJobs() {
                     <td className=" py-2  px-2">
                       <div className="flex items-center gap-4 font-semibold">
                         <img
-                          src={`http://localhost:4000/public/${
+                          src={`${ConstentApi()}/public/${
                             e.company === null ? null : e.company.logo
                           }`}
                           className="w-16 h-16 rounded-full"
@@ -138,10 +147,14 @@ function ShowJobs() {
             </table>
           </div>
         </>
-        )}
-      
-      {active==="edit" && <Postjob back={habdelback} jobhai={onejob} refres={getjobdata} />}
-      {active==="Applicants" && <Applicants jobId={onejob} back={habdelback} />}
+      )}
+
+      {active === "edit" && (
+        <Postjob back={habdelback} jobhai={onejob} refres={getjobdata} />
+      )}
+      {active === "Applicants" && (
+        <Applicants jobId={onejob} back={habdelback} />
+      )}
     </div>
   );
 }

@@ -11,14 +11,18 @@ function UpdateCompany(props) {
   const [logo, setlogo] = useState("");
   const [compId, setcompId] = useState(props.compId);
   // console.log(props);
-
+  const token = sessionStorage.getItem("token");
   useEffect(() => {
     const getcurentcompany = async () => {
       try {
         const res = await axios.post(
-          `${ConstentApi()}/companise/getonecompanise/${compId}`,
-          {},
-          { withCredentials: true }
+          `${ConstentApi()}/companise/getonecompanise/${compId}`,{},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         if (res.status === 200) {
           console.log(res.data);
@@ -46,14 +50,14 @@ function UpdateCompany(props) {
     updatedata.append("location", location);
     updatedata.append("logo", logo);
     try {
-   
-
       const res = await axios.put(
         `${ConstentApi()}/companise/updatecompani/${compId}`,
         updatedata,
         {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 

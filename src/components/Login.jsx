@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import ConstantApi from "../components/ConstentApi.jsx";
-// axios.defaults.withCredentials = true;
+
 function Login() {
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,7 +11,6 @@ function Login() {
   const submitData = async (e) => {
     e.preventDefault();
     const userinfo = { email, password };
-    // console.log(data);
 
     try {
       const res = await axios.post(`${ConstantApi()}/user/login`, userinfo, {
@@ -21,10 +20,10 @@ function Login() {
         },
       });
       console.log(res);
-      if (res) {
-        // console.log(res.data);
-        document.getElementById("my_modal_3").close();
+      if (res.status===200) {
 
+        document.getElementById("my_modal_3").close();
+        sessionStorage.setItem("token",res.data.token)
         if (res.data.user.usertype === "client") {
           Swal.fire({
             title: "Login successfull",
@@ -59,57 +58,6 @@ function Login() {
       });
     }
   };
-  // ?_____________________________
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Sending login request to the backend
-      const response = await fetch(`${ConstantApi()}/user/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // Important for cookies
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        // Display success message
-        console.log("User Data:", data);
-
-        document.getElementById("my_modal_3").close();
-
-        if (data.user.usertype === "client") {
-          Swal.fire({
-            title: "Login successfull",
-            text: `Wellcome mr.${data.user.name}`,
-            icon: "success",
-          });
-          sessionStorage.setItem("user", JSON.stringify(data.user));
-          navigate("/users/dashbord");
-        } else if (data.user.usertype === "Recruiter") {
-          Swal.fire({
-            title: "Login successfull",
-            text: `Wellcome mr.${data.user.name}`,
-            icon: "success",
-          });
-          sessionStorage.setItem("user", JSON.stringify(data.user));
-
-          return navigate("/recruiter");
-        }
-        // Cookies are automatically stored in the browser if sent with `credentials: "include"`
-      } else {
-        console.log("Login failed");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
-  // ++++++++++++++++++++++
-
   return (
     <div>
       <dialog id="my_modal_3" className="modal">

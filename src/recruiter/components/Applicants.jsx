@@ -1,14 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
+import ConstentApi from "../../components/ConstentApi";
 function Applicants({ back, jobId }) {
   const [data, setdata] = useState([]);
+  const token = sessionStorage.getItem("token");
   const getapplicants = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:4000/applicant/getaplicants/${jobId}`,
+        `${ConstentApi()}/applicant/getaplicants/${jobId}`,
         {},
-        { withCredentials: true }
+        {
+          headers: {
+            Content_Type: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (res.status === 200) {
         console.log(res.data);
@@ -24,20 +30,26 @@ function Applicants({ back, jobId }) {
   const handleAccept = (applicantId) => {
     updateStatus(applicantId, "Accepted");
   };
-const updateStatus=async(applicantId,status)=>{
-  try {
-    const res=await axios.put(`http://localhost:4000/applicant/updateStatus/${applicantId}`,{ status },{withCredentials:true})
-    if(res.status===200){
-      console.log("update successfull");
-      getapplicants()
-      
+  const updateStatus = async (applicantId, status) => {
+    try {
+      const res = await axios.put(
+        `${ConstentApi()}/applicant/updateStatus/${applicantId}`,
+        { status },
+        {
+          headers: {
+            Content_Type: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.status === 200) {
+        console.log("update successfull");
+        getapplicants();
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-    
-  }
-}
-
+  };
 
   useEffect(() => {
     if (jobId) {
@@ -51,10 +63,7 @@ const updateStatus=async(applicantId,status)=>{
         ← Back
       </div>
 
-      <div className="font-bold">
-Applicants {`${data.length}`}
-
-      </div>
+      <div className="font-bold">Applicants {`${data.length}`}</div>
 
       <div className="mt-4">
         <table className="table-auto  w-full">
@@ -83,10 +92,12 @@ Applicants {`${data.length}`}
                 <td className=" py-2 px-2 min-w-24">
                   <div className="dropdown">
                     <div className="text-3xl ">
-                    <div tabIndex={0} className="text-xs border rounded-xl px-2 py-1">
-
-                      {e.status}
-                    </div>
+                      <div
+                        tabIndex={0}
+                        className="text-xs border rounded-xl px-2 py-1"
+                      >
+                        {e.status}
+                      </div>
                       {/* <i className="r" tabIndex={0}></i> */}
                     </div>
                     <ul

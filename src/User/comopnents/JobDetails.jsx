@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Botten from "../../components/Botten";
 import axios from "axios";
+import ConstentApi from "../../components/ConstentApi";
 function JobDetails(props) {
   const [isApplid, setisApplid] = useState(false);
   console.log(props);
@@ -13,22 +14,28 @@ function JobDetails(props) {
     }
     return [];
   };
+  const token = sessionStorage.getItem("token");
   const getapplicent = async () => {
     const res = await axios.post(
-      `http://localhost:4000/applicant/getaplicants/${props.job._id}`,
+      `${ConstentApi()}/applicant/getaplicants/${props.job._id}`,
       {},
-      { withCredentials: true }
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Brarre ${token}`,
+        },
+      }
     );
 
     const applicantIds = getApplicantIds(res.data.job);
-    const user=JSON.parse(sessionStorage.getItem("user"))
-    console.log(applicantIds,user._id);
-    
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    console.log(applicantIds, user._id);
+
     if (applicantIds.includes(user._id)) {
-        setisApplid(true); // Match found, set `isApplid` to true
-      } else {
-        setisApplid(false); // No match, set `isApplid` to false
-      }
+      setisApplid(true); // Match found, set `isApplid` to true
+    } else {
+      setisApplid(false); // No match, set `isApplid` to false
+    }
   };
 
   console.log(isApplid);
@@ -38,11 +45,19 @@ function JobDetails(props) {
   const Apply = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:4000/applicant/aplidjob/${props.job._id}`,
+        `${ConstentApi()}/applicant/aplidjob/${props.job._id}`,
         {},
-        { withCredentials: true }
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Brarre ${token}`,
+          },
+        }
       );
-      console.log(res);
+      if (res.status===200) {
+        setisApplid(true)
+      
+      }
     } catch (error) {
       console.log(error);
     }
@@ -51,14 +66,17 @@ function JobDetails(props) {
   return (
     <div className="px-20 mt-5 border py-5">
       <div className="flex items-center mb-5">
-        <div className="w-2/4" onClick={() => props.back(false)}> ← Back</div>
+        <div className="w-2/4" onClick={() => props.back(false)}>
+          {" "}
+          ← Back
+        </div>
         <div className="text-2xl  w-2/4 underline font-bold">Job Details</div>
       </div>
       <div className="flex items-center">
         <div className="w-2/5">
           <img
             className="w-3/4"
-            src={`http://localhost:4000/public/${props.job.company?.logo}`}
+            src={`${ConstentApi()}/public/${props.job.company?.logo}`}
             alt=""
           />
         </div>

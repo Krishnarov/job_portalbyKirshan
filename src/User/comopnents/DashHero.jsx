@@ -3,7 +3,7 @@ import ApplideJobs from "./applideJobs";
 import Scheduling from "./Scheduling";
 import Joblisting from "./Joblisting";
 import axios from "axios";
-import constantapi from "../../components/ConstentApi.jsx"
+import constantapi from "../../components/ConstentApi.jsx";
 import Profile from "../../components/Profile";
 function Arrowdown() {
   return (
@@ -29,25 +29,30 @@ function DashHero({ activeSection, onSidebarClick, jobs }) {
   const handelacrive = (e) => {
     onSidebarClick(e);
   };
-  
+
   const [allaplidjobs, setallappliedsjob] = useState([]);
   const [greeting, setgreeting] = useState("");
 
   const applidejobNo = (e) => {
     setapplyjobsall(e);
   };
-
+  const token = sessionStorage.getItem("token");
 
   const getdata = async () => {
     const res = await axios.post(
       `${constantapi()}/applicant/allaplidjob`,
       {},
-      { withCredentials: true }
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     setallappliedsjob(res.data?.application);
     // setapplyjob(res.data.application.length);
   };
-  
+
   useEffect(() => {
     const currenthour = new Date().getHours();
     if (currenthour < 12) {
@@ -57,13 +62,11 @@ function DashHero({ activeSection, onSidebarClick, jobs }) {
     } else {
       setgreeting("Good Evening");
     }
-    if(allaplidjobs.length===0){
-      getdata()
-
+    if (allaplidjobs.length === 0) {
+      getdata();
     }
     getalljobs();
-  },[allaplidjobs]);
-  
+  }, [allaplidjobs]);
 
   const getalljobs = async () => {
     await setjobsall(jobs.jobs.jobs?.length);
@@ -109,7 +112,7 @@ function DashHero({ activeSection, onSidebarClick, jobs }) {
           <ApplideJobs allaplidjobs={allaplidjobs} />
         )}
         {activeSection === "Interview" && <Scheduling />}
-        {activeSection === "Profile" && <Profile allaplidjobs={allaplidjobs}/>}
+        {activeSection === "Profile" && <Profile allaplidjobs={allaplidjobs} />}
         {activeSection === "Listing" && <Joblisting jobs={jobs} />}
       </div>
     </div>

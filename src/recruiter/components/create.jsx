@@ -12,7 +12,7 @@ function Create({clickActive}) {
   const [curentId,setcurentid]=useState("")
 
 
-
+const token=sessionStorage.getItem("token")
   const handalcantinue = async () => {
     try {
       if (!name) {
@@ -20,7 +20,12 @@ function Create({clickActive}) {
       }
       const res = await axios.post(
         `${ConstentApi()}/companise/regcompanise`,
-        { name },{ withCredentials: true }
+        { name },{
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       

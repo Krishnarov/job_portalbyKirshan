@@ -13,15 +13,12 @@ import constantapi from "../components/ConstentApi.jsx"
 function Home() {
 
   const [jobsdatas,setjobdatas]=useState([])
-  // const [companies, setCompnise]=useState([])
-  console.log(`${constantapi()}/jobs/getalljob`);
+
   
   useEffect(()=>{
     const getjobs=async () => {
       try {
         const res=await axios.get(`${constantapi()}/jobs/getalljob`,{}, { withCredentials: true })
-        // console.log(res.data);
-        
         setjobdatas(res.data?.jobs)
 
       } catch (error) {

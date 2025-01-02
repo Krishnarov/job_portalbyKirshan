@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Sidebar from "../../User/comopnents/sidebar";
-import DashNav from "../../User/comopnents/DashNav";
 import ReNavBar from "./ReNavBar";
 import Residebar from "./Residebar";
 import ReDashhero from "./ReDashhero";

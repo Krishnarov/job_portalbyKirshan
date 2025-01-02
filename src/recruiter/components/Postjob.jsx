@@ -10,11 +10,12 @@ import {
   ListboxOptions,
 } from "@headlessui/react";
 import Botten from "../../components/Botten";
+import ConstentApi from "../../components/ConstentApi.jsx";
 
-function Postjob( {back,refres,jobhai} ) {
+function Postjob({ back, refres, jobhai }) {
   const [title, settitle] = useState([]);
   const [address, setlocation] = useState([]);
-  const [companyId, setcompanyId] = useState('');
+  const [companyId, setcompanyId] = useState("");
   const [dec, setdec] = useState([]);
   const [skills, setSkills] = useState([]);
   const [salary, setSalary] = useState([]);
@@ -24,13 +25,18 @@ function Postjob( {back,refres,jobhai} ) {
   const [selected, setSelected] = useState([]);
   const [company, setcompany] = useState([]);
   console.log(company);
-  
+  const token = sessionStorage.getItem("token");
   const getcompanydata = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:4000/companise/getCompany",
-        {},
-        { withCredentials: true }
+      const res = await axios.get(
+        `${ConstentApi()}/companise/getCompany`,
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setcompany(res.data.companay);
     } catch (error) {
@@ -39,24 +45,23 @@ function Postjob( {back,refres,jobhai} ) {
   };
 
   useEffect(() => {
-    if(jobhai){
-setSalary(jobhai.salary)   
-settitle(jobhai.title)
-setlocation(jobhai.address)
-setExperience(jobhai.experience)
-setSkills(jobhai.skills)
-setpostion(jobhai.position)   
-setdec(jobhai.dec)
-setjobtypr(jobhai.jobType)
-setSelected(jobhai.company)
+    if (jobhai) {
+      setSalary(jobhai.salary);
+      settitle(jobhai.title);
+      setlocation(jobhai.address);
+      setExperience(jobhai.experience);
+      setSkills(jobhai.skills);
+      setpostion(jobhai.position);
+      setdec(jobhai.dec);
+      setjobtypr(jobhai.jobType);
+      setSelected(jobhai.company);
     }
     getcompanydata();
-    if(selected){
-      setcompanyId(selected._id)
+    if (selected) {
+      setcompanyId(selected._id);
     }
   }, [selected]);
 
-  
   const postdata = {
     title,
     companyId,
@@ -69,51 +74,54 @@ setSelected(jobhai.company)
     experience,
   };
   const handelpost = async () => {
-  
-
     // console.log(postdata);
     try {
-      const res=await axios.post("http://localhost:4000/jobs/postjob",postdata,{withCredentials:true})
+      const res = await axios.post(`${ConstentApi()}/jobs/postjob`, postdata, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (res.status === 200) {
         console.log(res.data);
         console.log("job post seccessfully");
-       
+
         toast.success("Job post seccessfully!", {
           position: "bottom-right",
         });
-        back("")
-        refres()
-
-
+        back("");
+        refres();
       }
     } catch (error) {
       console.log("error", error);
     }
   };
 
-
-  const handeludate=async()=>{
-
+  const handeludate = async () => {
     try {
-
-      
-      const res=await axios.put(`http://localhost:4000/jobs/updatejob/${jobhai._id}`,postdata,{withCredentials:true})
-      if(res.status===200){
+      const res = await axios.put(
+        `${ConstentApi()}/jobs/updatejob/${jobhai._id}`,
+        postdata,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.status === 200) {
         // console.log("updating successfull",res.data);
         toast.success("Job Updated seccessfully!", {
           position: "bottom-right",
         });
-        back("")
-        refres()
+        back("");
+        refres();
       }
     } catch (error) {
       console.log(error);
-      
     }
-    
-  }
+  };
   console.log(selected);
-  
 
   return (
     <div className="  flex items-center justify-center">
@@ -128,9 +136,9 @@ setSelected(jobhai.company)
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4 mt-8">
-        <div className="">
+          <div className="">
             <p className="font-bold">Company</p>
-            <Listbox onChange={setSelected} >
+            <Listbox onChange={setSelected}>
               <div className="relative mt-2">
                 <ListboxButton className="relative w-full cursor-default  bg-inherit   border   sm:text-sm/6">
                   <span className="flex items-center">
@@ -140,7 +148,6 @@ setSelected(jobhai.company)
                       ) : (
                         selected.name
                       )}
-
                     </span>
                   </span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
@@ -176,12 +183,10 @@ setSelected(jobhai.company)
               placeholder=""
               value={title}
               onChange={(n) => settitle(n.target.value)}
-
               name="title"
             />
           </div>
 
-          
           <div className="mt-4">
             <p className="font-bold">Salary</p>
             <input
@@ -235,7 +240,6 @@ setSelected(jobhai.company)
               placeholder=""
               value={experience}
               onChange={(n) => setExperience(n.target.value)}
-
               name="experience"
             />
           </div>
@@ -289,14 +293,19 @@ setSelected(jobhai.company)
           >
             Post Job
           </div> */}
-
-
-<Botten name={jobhai?"Update Job":"Post A New Job"} clicks={() => {jobhai? handeludate(): handelpost()}} w={"w-96"}/>
-
+          <Botten
+            name={jobhai ? "Update Job" : "Post A New Job"}
+            clicks={() => {
+              jobhai ? handeludate() : handelpost();
+            }}
+            w={"w-96"}
+          />
         </div>
-            <div className="flex items-center justify-center text-red-600 font-bold text-xs pt-2">
-              {company.length===0 && <div>* Please register a company first, before posting ajob </div>}
-            </div>
+        <div className="flex items-center justify-center text-red-600 font-bold text-xs pt-2">
+          {company.length === 0 && (
+            <div>* Please register a company first, before posting ajob </div>
+          )}
+        </div>
       </div>
     </div>
   );

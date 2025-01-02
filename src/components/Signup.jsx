@@ -27,8 +27,6 @@ function Signup() {
         userinfo
       );
       if (res.status === 200) {
-        console.log(res?.data);
-
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -42,7 +40,6 @@ function Signup() {
         }, 2000);
       }
     } catch (error) {
-      // console.log(error.response.data.message);
       Swal.fire({
         icon: "error",
         title: "Oops...",

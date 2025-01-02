@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 
 function Hero(props) {
-
-  
-  const locations = ["Lucknow", "Delhi", "goa", "azamgarh"];
   const [locetiondata, setlocationdata] = useState("");
   const [searchjob, setsearchjob] = useState("");
 
@@ -59,7 +56,7 @@ function Hero(props) {
           </div>
           <div className="md:w-1/3 w-full flex justify-end items-cente text-center">
             <button
-              onClick={handelsearch}
+              onClick={()=>handelsearch()}
               className="bg-indigo-600 h-14 md:h-12 w-full hover:text-indigo-600  text-white hover:bg-transparent border-2 border-indigo-600 "
             >
               Search my job

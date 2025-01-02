@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import JobDetails from "./JobDetails";
+import ConstentApi from "../../components/ConstentApi";
 
 function Joblisting({ jobs }) {
   const rate = 5;
@@ -37,7 +38,7 @@ const onejob=(e)=>{
               <div className="flex items-center md:mb-0 mb-2 w-16">
 
                 <img
-                  src={`http://localhost:4000/public/${
+                  src={`${ConstentApi()}/public/${
                     item.company === null ? null : item.company.logo
                   }`}
                 />

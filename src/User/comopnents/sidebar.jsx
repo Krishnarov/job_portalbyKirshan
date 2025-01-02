@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function Sidebar({ onSidebarClick, activeSection, data }) {
-  console.log(data);
+
 
   const [active, setactive] = useState("dashboard");
 

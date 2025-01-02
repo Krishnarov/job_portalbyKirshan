@@ -3,6 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Cookies from 'js-cookie';
+import ConstentApi from "../../components/ConstentApi";
 
 function Logout() {
   const navigate = useNavigate();
@@ -23,8 +24,14 @@ function Logout() {
         navigate("/");
         sessionStorage.clear();
         Cookies.remove("token");
-        const res=await axios.post("http://localhost:4000/user/logout")
-        console.log(res);
+        try {
+          
+          const res=await axios.post(`${ConstentApi()}/user/logout`)
+          console.log(res);
+        } catch (error) {
+          console.log(error);
+          
+        }
         Swal.fire({
           title: "Logout!",
           text: "Your file has been deleted.",
